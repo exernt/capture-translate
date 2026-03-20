@@ -23,6 +23,8 @@ class RegionSelector:
         self.root.geometry(f"{w}x{h}+{x}+{y}")
         self.root.configure(bg=self.ACCENT)
 
+        self.root.attributes('-alpha',0.2)
+
         self._drag_start = None
         self._resize_dir = None
         self._build_ui()
@@ -36,6 +38,7 @@ class RegionSelector:
         self.inner.place(x=B, y=B, relwidth=1.0, relheight=1.0,
                          width=-2*B, height=-2*B)
 
+        """
         self.label = tk.Label(
             self.inner,
             text="Drag to move  ·  Drag edges or corners to resize",
@@ -45,7 +48,7 @@ class RegionSelector:
             justify="center",
         )
         self.label.place(relx=0.5, rely=0.5, anchor="center")
-
+        """
         self.status_lbl = tk.Label(
             self.inner,
             text=self._size_text(),
@@ -54,7 +57,7 @@ class RegionSelector:
             bg=self.BG,
         )
         self.status_lbl.place(relx=0.5, rely=1.0, anchor="s", y=-6)
-
+        
         # Resize handles
         self._handles = {}
         cursors = {
@@ -90,7 +93,7 @@ class RegionSelector:
 
     # ── events ───────────────────────────────────────────────────────────────
     def _bind_events(self):
-        for widget in (self.inner, self.label, self.status_lbl):
+        for widget in (self.inner, self.status_lbl):
             widget.bind("<ButtonPress-1>",   self._start_move)
             widget.bind("<B1-Motion>",       self._do_move)
             widget.bind("<ButtonRelease-1>", self._stop_drag)

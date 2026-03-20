@@ -10,6 +10,8 @@ import os
 import tkinter as tk
 from capture import RegionSelector
 from control import ControlPanel
+from ocr import ocr
+from deepltranslate import translater
 
 try:
     from PIL import ImageGrab
@@ -38,8 +40,10 @@ def main():
     root = tk.Tk()
     root.withdraw()
 
+    reader = ocr()
+    tl = translater()
     selector = RegionSelector(tk.Toplevel(root), scale)
-    ControlPanel(root, selector)
+    ControlPanel(root, selector, reader, tl)
 
     root.mainloop()
 
