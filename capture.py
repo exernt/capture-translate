@@ -13,7 +13,7 @@ class RegionSelector:
 
         self.root.title("Capture Region")
         self.root.attributes("-topmost", True)
-        self.root.attributes("-alpha", 0.85)
+        self.root.attributes("-alpha", 0.2)
         self.root.overrideredirect(True)
 
         sw = self.root.winfo_screenwidth()
@@ -22,8 +22,6 @@ class RegionSelector:
         x, y = (sw - w) // 2, (sh - h) // 2
         self.root.geometry(f"{w}x{h}+{x}+{y}")
         self.root.configure(bg=self.ACCENT)
-
-        self.root.attributes('-alpha',0.2)
 
         self._drag_start = None
         self._resize_dir = None
@@ -37,18 +35,7 @@ class RegionSelector:
         self.inner = tk.Frame(self.root, bg=self.BG)
         self.inner.place(x=B, y=B, relwidth=1.0, relheight=1.0,
                          width=-2*B, height=-2*B)
-
-        """
-        self.label = tk.Label(
-            self.inner,
-            text="Drag to move  ·  Drag edges or corners to resize",
-            font=("Helvetica", 11),
-            fg="#aad4f5",
-            bg=self.BG,
-            justify="center",
-        )
-        self.label.place(relx=0.5, rely=0.5, anchor="center")
-        """
+        
         self.status_lbl = tk.Label(
             self.inner,
             text=self._size_text(),
@@ -150,11 +137,7 @@ class RegionSelector:
 
     def get_region(self):
         """
-        Return the capture bbox in *physical* pixels, which is what
-        ImageGrab.grab(bbox=...) expects.
-
-        tkinter gives us logical pixel coordinates; we multiply by the
-        display scale factor to get physical pixels.
+        Returns capture box coordinates, scaled to device pixel ratio.
         """
         B = self.BORDER
         s = self.scale
@@ -171,10 +154,3 @@ class RegionSelector:
         py2 = round((ly + lh) * s)
 
         return (px1, py1, px2, py2)
-
-    def flash(self, message, colour="#00ff99"):
-        orig_text   = self.label.cget("text")
-        orig_colour = "#aad4f5"
-        self.label.configure(text=message, fg=colour)
-        self.root.after(2000, lambda: self.label.configure(
-            text=orig_text, fg=orig_colour))

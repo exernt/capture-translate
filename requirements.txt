@@ -1,0 +1,5 @@
+deepl>=1.28.0
+loguru>=0.7.3
+manga_ocr>=0.1.14
+Pillow>=12.1.1
+python-dotenv>=1.2.2

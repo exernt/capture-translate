@@ -3,6 +3,7 @@ from datetime import datetime
 import tkinter as tk
 from tkinter import scrolledtext
 from PIL import ImageGrab
+from loguru import logger
 
 class ControlPanel:
     BG      = "#b8b8b8"
@@ -28,7 +29,7 @@ class ControlPanel:
         sw = self.win.winfo_screenwidth()
         sh = self.win.winfo_screenheight()
         pw, ph = 1024, 768
-        self.win.geometry(f"{pw}x{ph}+{(sw-pw)//2}+{sh-ph-60}")
+        self.win.geometry(f"{pw}x{ph}+{(sw-pw)//2}+{sh-ph-120}")
 
         self._build_ui()
 
@@ -108,10 +109,11 @@ class ControlPanel:
         self.status_lbl.pack()
 
     # ── actions ──────────────────────────────────────────────────────────────
+    @logger.catch
     def _capture(self):
         region = self.selector.get_region()
 
-        # Hide both windows so they don't appear in the shot
+        # hides overlay so it does not appear in shot
         self.selector.root.withdraw()
         self.selector.root.update()
 
@@ -121,7 +123,7 @@ class ControlPanel:
             screenshot.save(filename)
             abs_path = os.path.abspath(filename)
             self._set_status("Capture Successful", ok=True)
-            print(f"Saved: {abs_path}  (region {region}, scale {self.selector.scale:.2f}×)")
+            logger.info(f"Saved: {abs_path}  (region {region}, scale {self.selector.scale:.2f}×)")
 
             path = "./" + filename
             text = self.ocr.readImage(path)
@@ -130,13 +132,14 @@ class ControlPanel:
             self.text_area.configure(state="normal")
             self.text_area.insert(tk.END, text + "\n" + tl_result.text + "\n")
             self.text_area.configure(state="disabled")
-            print(f"Read: {text}")
+            logger.info(f"Read: {text}")
+            logger.info(f"Translated to: {tl_result.text}")
 
             
         except Exception as exc:
             #self.selector.flash(f"✗ Error: {exc}", colour="#ff5555")
             self._set_status(f"✗ {exc}", ok=False)
-            print(f"Error: {exc}")
+            logger.exception(f"Error: {exc}")
         finally:
             self.selector.root.deiconify()
             self.selector.root.attributes("-topmost", True)

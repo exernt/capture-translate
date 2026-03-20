@@ -8,34 +8,23 @@ Screen Region Capture Tool
 import sys
 import os
 import tkinter as tk
+from loguru import logger
 from capture import RegionSelector
 from control import ControlPanel
 from ocr import ocr
 from deepltranslate import translater
 
-try:
-    from PIL import ImageGrab
-    HAS_DEPS = True
-except ImportError:
-    HAS_DEPS = False
-
 def main():
-    if not HAS_DEPS:
-        import subprocess
-        print("Installing Pillow...")
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "Pillow", "--quiet"])
-        from PIL import ImageGrab  # noqa: F401
-
     scale = 1.0  # default win32 scale with DPI awareness
     if sys.platform == "win32":
         from ctypes import windll
         try:
             windll.shcore.SetProcessDpiAwareness(1)
         except Exception:
-            print("Failed to set DPI awareness")
+            logger.error("Failed to set DPI awareness.")
             pass
         
-    print(f"Scale: {scale}")
+    logger.info(f"Scale: {scale}")
 
     root = tk.Tk()
     root.withdraw()
@@ -46,7 +35,6 @@ def main():
     ControlPanel(root, selector, reader, tl)
 
     root.mainloop()
-
 
 if __name__ == "__main__":
     main()
