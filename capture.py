@@ -9,7 +9,7 @@ class RegionSelector:
 
     def __init__(self, root, scale):
         self.root  = root
-        self.scale = scale          # physical pixels per logical pixel
+        self.scale = scale          # device pixel ratio
 
         self.root.title("Capture Region")
         self.root.attributes("-topmost", True)

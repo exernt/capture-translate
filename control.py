@@ -102,7 +102,8 @@ class ControlPanel:
         self.reset_btn.bind("<Leave>", lambda e: self.save_btn.configure(bg=self.BTN_SAV))
 
         self.status_lbl = tk.Label(
-            self.win, text="",
+            self.win, 
+            text="",
             font=("Helvetica", 10),
             fg="black", bg=self.BG
         )
@@ -135,7 +136,6 @@ class ControlPanel:
             logger.info(f"Read: {text}")
             logger.info(f"Translated to: {tl_result.text}")
 
-            
         except Exception as exc:
             #self.selector.flash(f"✗ Error: {exc}", colour="#ff5555")
             self._set_status(f"✗ {exc}", ok=False)
