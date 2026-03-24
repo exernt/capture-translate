@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """
-Screen Region Capture Tool
-- Displays a resizable, draggable border overlay on screen
-- A separate control panel provides Save and Exit buttons
+Screen Region Translater
+- Displays a resizable, draggable border overlay on screen to control capture region.
+- Separate window for screen capture and translation output.
 """
 
 import sys
-import os
 import tkinter as tk
 from loguru import logger
 from capture import RegionSelector

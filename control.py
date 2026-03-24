@@ -6,9 +6,9 @@ from PIL import ImageGrab
 from loguru import logger
 
 class ControlPanel:
-    BG      = "#b8b8b8"
-    BTN_SAV = "#0d7fcc"
-    BTN_HOV = "#0a6aab"
+    BG      = "#b8b8b8"         # background color
+    BTN_SAV = "#0d7fcc"         # default button color
+    BTN_HOV = "#0a6aab"         # hover button color
     saved_context = []
 
     def __init__(self, root, selector, ocr, tl):

@@ -1,9 +1,9 @@
 import tkinter as tk
 
 class RegionSelector:
-    BORDER   = 1
-    HANDLE   = 14
-    MIN_SIZE = 80
+    BORDER   = 1        # thickness of the light blue window border - when rendered, will not be less than HANDLE
+    HANDLE   = 14       # thickness of drag handle area
+    MIN_SIZE = 80       # minimum window size
     ACCENT   = "#00aaff"
     BG       = "#1a1a2e"
 
